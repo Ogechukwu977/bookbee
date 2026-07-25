@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
+  title: "BookBee — Read. Watch. Play. Belong.",
+  description:
+    "Borrow or buy books, comics, audiobooks, movies, games, and Bibles. Join clubs, complete reading challenges, and earn rewards.",
   other: {
     "codex-preview": "development",
   },
