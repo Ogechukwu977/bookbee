@@ -644,6 +644,28 @@ const CATALOG = {
     {t:"Dracula", by:"Bram Stoker · Complete public-domain book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/files/345/345-h/345-h.htm", color:"#B98989"},
     {t:"The Picture of Dorian Gray", by:"Oscar Wilde · Complete public-domain book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/files/174/174-h/174-h.htm", color:"#A9B9D4"},
     {t:"The Wonderful Wizard of Oz", by:"L. Frank Baum · Complete public-domain book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/files/55/55-h/55-h.htm", color:"#B6D9A8"},
+    {t:"The Great Gatsby", by:"F. Scott Fitzgerald · Modern classic · Complete book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/64317/pg64317-images.html", color:"#D8C36A"},
+    {t:"Mrs. Dalloway", by:"Virginia Woolf · Modern classic · Complete book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/71865/pg71865-images.html", color:"#C9B4D9"},
+    {t:"Babbitt", by:"Sinclair Lewis · Modern classic · Complete book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/1156/pg1156-images.html", color:"#E1B47D"},
+    {t:"The Blue Castle", by:"L. M. Montgomery · Modern romantic classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/67979/pg67979-images.html", color:"#F2D56B"},
+    {t:"The Prophet", by:"Kahlil Gibran · Illustrated modern classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/58585/pg58585-images.html", color:"#AFC9C4"},
+    {t:"The Man Who Was Thursday", by:"G. K. Chesterton · Modern mystery classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/1695/pg1695-images.html", color:"#B9C5A7"},
+    {t:"Jacob’s Room", by:"Virginia Woolf · Modernist classic · Complete book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/5670/pg5670-images.html", color:"#D6B8C8"},
+    {t:"The Beautiful and Damned", by:"F. Scott Fitzgerald · Modern classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/9830/pg9830-images.html", color:"#BFC7DB"},
+    {t:"This Side of Paradise", by:"F. Scott Fitzgerald · Modern classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/805/pg805-images.html", color:"#A9C7D8"},
+    {t:"Heart of Darkness", by:"Joseph Conrad · Modern literary classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/219/pg219-images.html", color:"#C89B78"},
+    {t:"The Enchanted April", by:"Elizabeth von Arnim · Modern classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/16389/pg16389-images.html", color:"#E8C59A"},
+    {t:"The Age of Innocence", by:"Edith Wharton · Pulitzer Prize classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/541/pg541-images.html", color:"#CEC1AA"},
+    {t:"The Secret Garden", by:"Frances Hodgson Burnett · Illustrated classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/17396/pg17396-images.html", color:"#9FC69C"},
+    {t:"The Metamorphosis", by:"Franz Kafka · Modernist classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/5200/pg5200-images.html", color:"#B7AAA1"},
+    {t:"The Yellow Wallpaper", by:"Charlotte Perkins Gilman · Complete short classic", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/cache/epub/1952/pg1952-images.html", color:"#E0D17B"},
+  ],
+  graphicBooks: [
+    {t:"Pepper & Carrot: The Potion of Flight", by:"David Revoy · Open-license graphic story · CC BY 4.0", icon:"🎨", free:true, readerUrl:"https://www.peppercarrot.com/en/webcomic/ep01_Potion-of-Flight.html", color:"#F0A36E"},
+    {t:"Pepper & Carrot: Rainbow Potions", by:"David Revoy · Open-license graphic story · CC BY 4.0", icon:"🎨", free:true, readerUrl:"https://www.peppercarrot.com/en/webcomic/ep02_Rainbow-potions.html", color:"#D79AD6"},
+    {t:"Pepper & Carrot: Stroke of Genius", by:"David Revoy · Open-license graphic story · CC BY 4.0", icon:"🎨", free:true, readerUrl:"https://www.peppercarrot.com/en/webcomic/ep04_Stroke-of-genius.html", color:"#92C4D8"},
+    {t:"Pepper & Carrot: The Potion Contest", by:"David Revoy · Open-license graphic story · CC BY 4.0", icon:"🎨", free:true, readerUrl:"https://www.peppercarrot.com/en/webcomic/ep06_The-Potion-Contest.html", color:"#9BC99B"},
+    {t:"Pepper & Carrot: Books Are Great", by:"David Revoy · Open-license graphic story · CC BY 4.0", icon:"🎨", free:true, readerUrl:"https://www.peppercarrot.com/en/webcomic/ep26_Books-Are-Great.html", color:"#E4C66F"},
   ],
   comics: [
     {t:"The Paper Wasp — Issue #1", by:"BookBee Originals · Free preview", icon:"📕", color:"#FFE9A8", buy:4.99, rent:1.99},
@@ -753,7 +775,7 @@ function illustration(cat, color, seed){
       <circle cx="${76+shift}" cy="66" r="16" fill="#131009"/>
       <circle cx="${322-shift}" cy="238" r="11" fill="#F7C325"/>
     `;
-  } else if(cat === 'comics'){
+  } else if(cat === 'comics' || cat === 'graphicBooks'){
     inner = `
       <defs><pattern id="d${seed}" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="#131009" opacity="0.28"/></pattern></defs>
       <rect width="400" height="300" fill="${color}"/>
