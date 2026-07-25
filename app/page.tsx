@@ -202,7 +202,7 @@ export default function Home() {
         <div><h3>Help</h3><a href="#top">Contact us</a><a href="#top">FAQs</a><a href="#top">Accessibility</a></div>
         <div className="footer-bottom">
           <span>© 2026 Bookbee. Made with curiosity.</span>
-          <span>Created by Araola, Shallom A, Darasimi, Tyler &amp; Daniel</span>
+          <span>Created by <strong className="creator-names">Araola, Shallom A, Darasimi, Tyler &amp; Daniel</strong></span>
         </div>
       </footer>
     </main>
