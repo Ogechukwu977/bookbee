@@ -477,7 +477,7 @@
       <button class="tab-btn" data-cat="movies">🎬 Movies from Books</button>
       <button class="tab-btn" data-cat="games">🎮 Games</button>
       <button class="tab-btn" data-cat="bibles">📜 Bibles</button>
-      <button class="tab-btn" data-cat="free">🆓 Free</button>
+      <button class="tab-btn" data-cat="free">📖 Free Books</button>
     </div>
     <div class="translation-note" id="translationNote" style="display:none;">Available in KJV, NIV, ESV, NLT, and 5 more translations — pick yours at checkout.</div>
 
@@ -583,8 +583,13 @@
 <script>
 /* ---------------- Data ---------------- */
 const CATALOG = {
+  books: [
+    {t:"Alice’s Adventures in Wonderland", by:"Lewis Carroll · Complete public-domain book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/files/11/11-h/11-h.htm", color:"#A9D8F2"},
+    {t:"Pride and Prejudice", by:"Jane Austen · Complete public-domain book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/files/1342/1342-h/1342-h.htm", color:"#F5C6D6"},
+    {t:"Frankenstein", by:"Mary Shelley · Complete public-domain book", icon:"📖", free:true, readerUrl:"https://www.gutenberg.org/files/84/84-h/84-h.htm", color:"#B8C7A5"},
+  ],
   comics: [
-    {t:"The Paper Wasp — Issue #1", by:"BookBee Originals · Free preview", icon:"📕", free:true, color:"#FFE9A8"},
+    {t:"The Paper Wasp — Issue #1", by:"BookBee Originals · Free preview", icon:"📕", color:"#FFE9A8", buy:4.99, rent:1.99},
     {t:"Hollow Orchard Vol. 3", by:"M. Ferreira", icon:"📕", buy:14.99, rent:3.99, color:"#FFE9A8"},
     {t:"Static Kin", by:"J. Adewale", icon:"📗", buy:12.99, rent:3.49, color:"#FBE3C2"},
     {t:"The Tin Griffin", by:"R. Okafor", icon:"📘", buy:16.99, rent:4.49, color:"#F5D9C5"},
@@ -668,7 +673,17 @@ function illustration(cat, color, seed){
   const rot = ((seed * 23) % 30) - 15;
   const shift = (seed % 3) * 14;
   let inner = '';
-  if(cat === 'comics'){
+  if(cat === 'books'){
+    inner = `
+      <rect width="400" height="300" fill="${color}"/>
+      <rect x="92" y="42" width="216" height="216" rx="7" fill="#FFF8E6" stroke="#131009" stroke-width="6"/>
+      <line x1="200" y1="42" x2="200" y2="258" stroke="#131009" stroke-width="4"/>
+      <path d="M112 82 Q156 64 190 82 L190 220 Q154 205 112 220 Z" fill="#F7C325" stroke="#131009" stroke-width="3"/>
+      <path d="M288 82 Q244 64 210 82 L210 220 Q246 205 288 220 Z" fill="#FFE9A8" stroke="#131009" stroke-width="3"/>
+      <circle cx="${76+shift}" cy="66" r="16" fill="#131009"/>
+      <circle cx="${322-shift}" cy="238" r="11" fill="#F7C325"/>
+    `;
+  } else if(cat === 'comics'){
     inner = `
       <defs><pattern id="d${seed}" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="#131009" opacity="0.28"/></pattern></defs>
       <rect width="400" height="300" fill="${color}"/>
@@ -738,16 +753,29 @@ function renderCatalog(cat){
   const grid = document.getElementById('cardGrid');
   grid.innerHTML = '';
   document.getElementById('translationNote').style.display = (cat === 'bibles') ? 'block' : 'none';
-  const items = cat === 'free' ? Object.values(CATALOG).flat().filter(i=>i.free) : CATALOG[cat];
+  const items = cat === 'free' ? Object.values(CATALOG).flat().filter(i=>i.readerUrl) : CATALOG[cat];
   items.forEach((item, seed)=>{
     const realCat = cat === 'free' ? CAT_OF[item.t] : cat;
     const isBible = realCat === 'bibles';
     const card = document.createElement('div');
     card.className = 'book-card';
+    if(item.readerUrl){
+      card.dataset.reader = item.readerUrl;
+      card.tabIndex = 0;
+      card.setAttribute('role', 'link');
+      card.setAttribute('aria-label', `Read ${item.t} free — no sign-up required`);
+      card.style.cursor = 'pointer';
+    }
     const cover = illustration(realCat, item.color, seed);
 
     let actionsHtml;
-    if(item.free){
+    if(item.readerUrl){
+      actionsHtml = `
+        <div class="price-tag">Free forever · No sign-up required</div>
+        <div class="card-actions">
+          <button class="btn-mini free" data-action="read" data-title="${item.t}" data-reader="${item.readerUrl}">Read full book free →</button>
+        </div>`;
+    } else if(item.free){
       actionsHtml = `
         <div class="card-actions">
           <button class="btn-mini free" data-action="free" data-title="${item.t}">Get free</button>
@@ -793,10 +821,16 @@ document.getElementById('tabBar').addEventListener('click', e=>{
 
 document.getElementById('cardGrid').addEventListener('click', e=>{
   const btn = e.target.closest('button[data-action]');
-  if(!btn) return;
+  if(!btn){
+    const card = e.target.closest('.book-card[data-reader]');
+    if(card) window.open(card.dataset.reader, '_blank', 'noopener,noreferrer');
+    return;
+  }
   const title = btn.dataset.title;
   const action = btn.dataset.action;
-  if(action === 'buy'){
+  if(action === 'read'){
+    window.open(btn.dataset.reader, '_blank', 'noopener,noreferrer');
+  } else if(action === 'buy'){
     toast(`Added "${title}" to your order for ${money(parseFloat(btn.dataset.price))}.`);
   } else if(action === 'rent'){
     toast(`You rented "${title}" for ${money(parseFloat(btn.dataset.price))}.`);
@@ -813,6 +847,14 @@ document.getElementById('cardGrid').addEventListener('click', e=>{
     } else {
       toast(`You need ${cost - points} more points to redeem "${title}".`);
     }
+  }
+});
+
+document.getElementById('cardGrid').addEventListener('keydown', e=>{
+  const card = e.target.closest('.book-card[data-reader]');
+  if(card && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault();
+    window.open(card.dataset.reader, '_blank', 'noopener,noreferrer');
   }
 });
 
