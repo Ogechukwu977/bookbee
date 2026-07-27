@@ -24,13 +24,14 @@
     --shadow: 0 10px 30px rgba(19,16,9,0.12);
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
   body{
     margin:0;
     font-family:'Work Sans', sans-serif;
     background:var(--cream);
     color:var(--ink);
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
   h1,h2,h3,h4,.display{
     font-family:'Space Grotesk', sans-serif;
@@ -79,7 +80,7 @@
   }
   nav.wrap{
     display:flex; align-items:center; gap:22px;
-    height:74px;
+    height:74px; position:relative;
   }
   .logo{
     display:flex; align-items:center; gap:10px;
@@ -96,6 +97,7 @@
     display:flex; gap:6px; list-style:none; margin:0; padding:0;
     flex:1;
   }
+  .nav-links.open{ display:flex; }
   .nav-links button{
     background:none; border:none; color:var(--cream-dim);
     font-size:15px; padding:10px 14px; border-radius:8px;
@@ -426,16 +428,87 @@
     .footer-grid{ grid-template-columns:1fr 1fr; }
   }
   @media (max-width: 720px){
-    .nav-links, .nav-search{ display:none; }
-    .hamburger{ display:block; }
-    .hero h1{ font-size:38px; }
-    .grid-cards{ grid-template-columns:1fr 1fr; }
+    .wrap{ padding-left:18px; padding-right:18px; }
+    .notice-bar{ font-size:11px; line-height:1.45; padding:7px 16px; }
+    nav.wrap{
+      height:64px; gap:10px; justify-content:space-between;
+    }
+    .logo{ gap:8px; font-size:19px; }
+    .logo .hex{ width:30px; height:30px; font-size:15px; }
+    .nav-search{ display:none; }
+    .nav-links{
+      display:none; position:absolute; top:64px; left:-18px; right:-18px;
+      background:var(--black); flex-direction:column; gap:2px; padding:10px 18px 16px;
+      border-top:1px solid var(--black-line); border-bottom:1px solid var(--black-line);
+      box-shadow:0 18px 32px rgba(0,0,0,0.28);
+    }
+    .nav-links li, .nav-links button{ width:100%; }
+    .nav-links button{ min-height:44px; text-align:left; padding:11px 12px; }
+    .nav-actions{ gap:8px; }
+    .points-pill{ padding:7px 9px; font-size:11px; }
+    .join-btn{ display:none; }
+    .hamburger{
+      display:flex; align-items:center; justify-content:center;
+      width:38px; height:38px; padding:0; border-radius:8px;
+    }
+    .hamburger[aria-expanded="true"]{ color:var(--yellow); background:var(--black-soft); }
+    .notif-panel{
+      top:58px; right:0; width:min(320px, calc(100vw - 36px));
+    }
+    .hero-inner{ padding:50px 18px 46px; }
+    .hero h1{ font-size:clamp(36px, 11vw, 44px); line-height:1.05; }
+    .hero p.lead{ font-size:16px; line-height:1.55; }
+    .hero-ctas{ display:grid; grid-template-columns:1fr; gap:10px; }
+    .hero-ctas button{ width:100%; min-height:48px; }
+    .hero-stats{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:34px; }
+    .hero-stats b{ font-size:20px; }
+    .hero-stats span{ display:block; line-height:1.45; }
+    section{ padding:54px 0; }
+    .section-head{ margin-bottom:26px; }
+    .section-head h2{ font-size:28px; }
+    .tabs{
+      flex-wrap:nowrap; overflow-x:auto; overscroll-behavior-inline:contain;
+      scroll-snap-type:x proximity; margin-left:-18px; margin-right:-18px;
+      padding:0 18px 12px; scrollbar-width:none;
+    }
+    .tabs::-webkit-scrollbar{ display:none; }
+    .tab-btn{ flex:0 0 auto; min-height:44px; scroll-snap-align:start; }
     .footer-grid{ grid-template-columns:1fr; }
     .rewards-panel{ flex-direction:column; align-items:flex-start; }
+    .reward-items{ width:100%; display:grid; grid-template-columns:1fr 1fr; }
+    .reward-chip{ width:100%; }
+    .mem-card, .challenge-card{ padding:22px 20px; }
+    .club-card{ padding:20px; }
+    .toast-wrap{ left:18px; right:18px; bottom:18px; }
+    .toast{ max-width:none; width:100%; }
     .reader-modal{ padding:0; }
     .reader-shell{ border-radius:0; }
     .reader-head{ padding-left:14px; }
     .reader-external{ display:none; }
+  }
+  @media (max-width: 560px){
+    .grid-cards{ grid-template-columns:1fr; gap:18px; }
+    .cover{ height:220px; }
+    .card-body{ padding:16px 16px 18px; }
+    .card-actions{ flex-wrap:wrap; }
+    .btn-mini{ min-height:42px; }
+    .reward-items{ grid-template-columns:1fr; }
+    .club-bottom, .ch-bottom{ align-items:flex-start; gap:12px; flex-wrap:wrap; }
+    .btn-join-club, .btn-claim{ min-height:42px; }
+    .footer-bottom{ align-items:flex-start; flex-direction:column; }
+  }
+  @media (max-width: 380px){
+    .wrap{ padding-left:14px; padding-right:14px; }
+    .nav-links{ left:-14px; right:-14px; padding-left:14px; padding-right:14px; }
+    .logo{ font-size:18px; }
+    .logo .hex{ width:28px; height:28px; }
+    .nav-actions{ gap:6px; }
+    .points-pill{ padding:6px 8px; }
+    .icon-btn, .hamburger{ width:36px; height:36px; }
+    .hero-inner{ padding-left:14px; padding-right:14px; }
+    .hero-stats{ grid-template-columns:1fr; gap:14px; }
+    .hero-stats div{ display:flex; align-items:baseline; gap:10px; }
+    .hero-stats span{ display:inline; }
   }
 </style>
 </head>
@@ -460,7 +533,7 @@
       <button class="points-pill" title="Your BookBee points">🍯 <span id="pointsDisplay">320</span> pts</button>
       <button class="icon-btn" id="bellBtn">🔔<span class="badge-dot" id="notifCount">3</span></button>
       <button class="join-btn" id="joinTopBtn">Join BookBee</button>
-      <button class="hamburger" id="hamburgerBtn">☰</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
     <div class="notif-panel" id="notifPanel">
       <h4>Notifications</h4>
@@ -1117,8 +1190,19 @@ document.getElementById('heroJoinBtn').addEventListener('click', ()=>{
 });
 document.getElementById('hamburgerBtn').addEventListener('click', ()=>{
   const nav = document.getElementById('navLinks');
-  nav.style.display = (nav.style.display === 'flex') ? 'none' : 'flex';
-  nav.style.cssText += 'position:absolute; top:74px; left:0; right:0; background:#131009; flex-direction:column; padding:12px 20px;';
+  const button = document.getElementById('hamburgerBtn');
+  const isOpen = nav.classList.toggle('open');
+  button.setAttribute('aria-expanded', String(isOpen));
+  button.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+  button.textContent = isOpen ? '×' : '☰';
+});
+document.getElementById('navLinks').addEventListener('click', e=>{
+  if(!e.target.closest('button')) return;
+  document.getElementById('navLinks').classList.remove('open');
+  const button = document.getElementById('hamburgerBtn');
+  button.setAttribute('aria-expanded', 'false');
+  button.setAttribute('aria-label', 'Open navigation menu');
+  button.textContent = '☰';
 });
 
 /* ---------------- Init ---------------- */
